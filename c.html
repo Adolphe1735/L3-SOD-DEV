@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Solar System</title>
+<style>
+  /* Base reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body, html {
+    height: 100%; 
+    background: radial-gradient(ellipse at center, #05020f 0%, #000000 80%);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #eee;
+    user-select: none;
+  }
+  h1 {
+    text-align: center;
+    margin: 1rem 0;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: #f9a825;
+    letter-spacing: 2px;
+  }
+  #solar-system {
+    position: relative;
+    width: 100vw;
+    max-width: 350px;
+    height: 600px;
+    margin: 0 auto;
+    overflow: visible;
+  }
+  /* The Sun */
+  .sun {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 70px; height: 70px;
+    margin-left: -35px;
+    margin-top: -35px;
+    background: radial-gradient(circle, #ffda44 0%, #f9a825 70%, #c47b00 90%);
+    border-radius: 50%;
+    box-shadow: 0 0 30px 10px #ffda44, 0 0 50px 20px #f9a825;
+    z-index: 20;
+  }
+  .sun-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 50px));
+    font-weight: 700;
+    color: #f9a825;
+    font-size: 1rem;
+    pointer-events: none;
+    user-select: none;
+    z-index: 21;
+  }
+
+  /* Orbit ring container */
+  .orbit {
+    position: absolute;
+    top: 50%; left: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transform-origin: 50% 50%;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  /* Planet base style */
+  .planet {
+    position: absolute;
+    top: 50%; left: 50%;
+    border-radius: 50%;
+    transform-origin: center center;
+    box-shadow: 0 0 6px 2px rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .planet:hover {
+    transform: scale(1.4);
+    box-shadow: 0 0 15px 4px rgba(255,255,255,0.7);
+  }
+
+  /* Planet label base */
+  .planet-label {
+    position: absolute;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fffce6;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  /* Individual orbit sizes and speeds */
+  #mercury-orbit { width: 110px; height: 110px; margin-left: -55px; margin-top: -55px; animation: orbit 10s linear infinite; }
+  #venus-orbit   { width: 160px; height: 160px; margin-left: -80px; margin-top: -80px; animation: orbit 18s linear infinite; }
+  #earth-orbit   { width: 210px; height: 210px; margin-left: -105px; margin-top: -105px; animation: orbit 25s linear infinite; }
+  #mars-orbit    { width: 260px; height: 260px; margin-left: -130px; margin-top: -130px; animation: orbit 35s linear infinite; }
+  #jupiter-orbit { width: 330px; height: 330px; margin-left: -165px; margin-top: -165px; animation: orbit 45s linear infinite; }
+  #saturn-orbit  { width: 400px; height: 400px; margin-left: -200px; margin-top: -200px; animation: orbit 55s linear infinite; }
+  #uranus-orbit  { width: 460px; height: 460px; margin-left: -230px; margin-top: -230px; animation: orbit 65s linear infinite; }
+  #neptune-orbit { width: 520px; height: 520px; margin-left: -260px; margin-top: -260px; animation: orbit 75s linear infinite; }
+
+  /* Planet sizes and positions */
+  #mercury {
+    width:10px; height:10px; background: #9a9a9a; margin-left: 50px; margin-top: -5px;
+  }
+  #mercury-label {
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -120%);
+  }
+  #venus {
+    width:16px; height:16px; background: #e6c072; margin-left: 75px; margin-top: -8px;
+  }
+  #venus-label {
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -130%);
+  }
+  #earth-orbit {
+    animation: orbit 25s linear infinite;
+  }
+  #earth {
+    width:18px; height:18px; background: #2d6bf6; margin-left: 105px; margin-top: -9px;
+    position: relative;
+    z-index: 10; /* Ensure Earth's higher z-index than moon */
+  }
+  #earth-label {
+    top: 44%;
+    left: 50%;
+    transform: translate(-50%, -140%);
+  }
+  #mars {
+    width:14px; height:14px; background: #e04e3f; margin-left: 130px; margin-top: -7px;
+  }
+  #mars-label {
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -150%);
+  }
+  #jupiter {
+    width:30px; height:30px; background: #d2b178; margin-left: 165px; margin-top: -15px;
+  }
+  #jupiter-label {
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -160%);
+  }
+  #saturn {
+    width:28px; height:28px; background: #d9c898; margin-left: 195px; margin-top: -14px;
+  }
+  #saturn-label {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -170%);
+  }
+  #uranus {
+    width:24px; height:24px; background: #7adbe4; margin-left: 220px; margin-top: -12px;
+  }
+  #uranus-label {
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -180%);
+  }
+  #neptune {
+    width:22px; height:22px; background: #3b4fc8; margin-left: 245px; margin-top: -11px;
+  }
+  #neptune-label {
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -190%);
+  }
+
+  /* Moon orbit */
+  #moon-orbit {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 40px; height: 40px;
+    margin-left: -20px; margin-top: -20px;
+    border: 1px dotted rgba(255,255,255,0.3);
+    border-radius: 50%;
+    animation: orbit 5s linear infinite;
+    transform-origin: 50% 50%;
+    z-index: 5;
+  }
+  #moon {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 6px; height: 6px;
+    margin-left: 18px; /* Placed on edge of moon orbit */
+    margin-top: -3px;
+    background: #ccc;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 1px #ddd;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  #moon:hover {
+    transform: scale(1.5);
+    box-shadow: 0 0 15px 4px #fff;
+  }
+  #moon-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(60%, -60%);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #fffce6;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 11;
+  }
+
+  /* Orbit animation */
+  @keyframes orbit {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Info box */
+  #info-box {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 320px;
+    background: #222b44cc;
+    color: #fff;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 0 15px #5577ffbb;
+    font-size: 0.9rem;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+  #info-box.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Close button on info box */
+  #info-box button {
+    margin-top: 0.8rem;
+    background: #5577ffcc;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+  #info-box button:hover {
+    background: #3355ddcc;
+  }
+</style>
+</head>
+<body>
+<h1>Solar System</h1>
+
+<div id="solar-system" aria-label="Solar system diagram with planets orbiting the sun" role="img">
+  <div class="sun" title="Sun"></div>
+  <div class="sun-label">Sun</div>
+
+  <div id="mercury-orbit" class="orbit" aria-label="Mercury orbit">
+    <div id="mercury" class="planet" tabindex="0" role="button" aria-describedby="mercury-desc" aria-label="Mercury planet" data-name="Mercury" data-info="Mercury is the smallest planet and closest to the Sun. It has a very thin atmosphere and extreme temperatures today."></div>
+    <div id="mercury-label" class="planet-label">Mercury</div>
+  </div>
+  <div id="venus-orbit" class="orbit" aria-label="Venus orbit">
+    <div id="venus" class="planet" tabindex="0" role="button" aria-describedby="venus-desc" aria-label="Venus planet" data-name="Venus" data-info="Venus is similar in size to Earth, with a thick, toxic atmosphere and surface hot enough to melt lead."></div>
+    <div id="venus-label" class="planet-label">Venus</div>
+  </div>
+  <div id="earth-orbit" class="orbit" aria-label="Earth orbit">
+    <div id="earth" class="planet" tabindex="0" role="button" aria-describedby="earth-desc" aria-label="Earth planet" data-name="Earth" data-info="Earth is the third planet from the Sun and the only known planet to support life with water and diverse ecosystems.">
+      <div id="moon-orbit" class="orbit" aria-label="Moon orbiting Earth">
+        <div id="moon" class="planet" tabindex="0" role="button" aria-label="Moon" data-name="Moon" data-info="The Moon is Earth's only natural satellite and orbits the Earth approximately every 27 days."></div>
+        <div id="moon-label" class="planet-label">Moon</div>
+      </div>
+    </div>
+    <div id="earth-label" class="planet-label">Earth</div>
+  </div>
+  <div id="mars-orbit" class="orbit" aria-label="Mars orbit">
+    <div id="mars" class="planet" tabindex="0" role="button" aria-describedby="mars-desc" aria-label="Mars planet" data-name="Mars" data-info="Mars is the red planet with the largest volcano and canyon in the Solar System. It is a prime candidate for future colonization."></div>
+    <div id="mars-label" class="planet-label">Mars</div>
+  </div>
+  <div id="jupiter-orbit" class="orbit" aria-label="Jupiter orbit">
+    <div id="jupiter" class="planet" tabindex="0" role="button" aria-describedby="jupiter-desc" aria-label="Jupiter planet" data-name="Jupiter" data-info="Jupiter is the largest planet in the Solar System with a giant red spot and dozens of moons orbiting it."></div>
+    <div id="jupiter-label" class="planet-label">Jupiter</div>
+  </div>
+  <div id="saturn-orbit" class="orbit" aria-label="Saturn orbit">
+    <div id="saturn" class="planet" tabindex="0" role="button" aria-describedby="saturn-desc" aria-label="Saturn planet" data-name="Saturn" data-info="Saturn is famous for its spectacular rings made of ice and rock particles. It has many moons and a low density."></div>
+    <div id="saturn-label" class="planet-label">Saturn</div>
+  </div>
+  <div id="uranus-orbit" class="orbit" aria-label="Uranus orbit">
+    <div id="uranus" class="planet" tabindex="0" role="button" aria-describedby="uranus-desc" aria-label="Uranus planet" data-name="Uranus" data-info="Uranus is a blue-green ice giant with a unique tilted rotation axis, making it spin on its side."></div>
+    <div id="uranus-label" class="planet-label">Uranus</div>
+  </div>
+  <div id="neptune-orbit" class="orbit" aria-label="Neptune orbit">
+    <div id="neptune" class="planet" tabindex="0" role="button" aria-describedby="neptune-desc" aria-label="Neptune planet" data-name="Neptune" data-info="Neptune is the farthest known planet from the Sun with strong winds and storms in its deep blue atmosphere."></div>
+    <div id="neptune-label" class="planet-label">Neptune</div>
+  </div>
+</div>
+
+<!-- Info box -->
+<div id="info-box" role="alert" aria-live="assertive">
+  <div id="info-title" style="font-weight:bold; font-size:1.1rem; margin-bottom:0.3rem;"></div>
+  <div id="info-text"></div>
+  <button aria-label="Close info box" id="close-info">Close</button>
+</div>
+
+<script>
+  // Show info box on planet or moon click or keyboard enter/space
+  const planets = document.querySelectorAll('.planet');
+  const infoBox = document.getElementById('info-box');
+  const infoTitle = document.getElementById('info-title');
+  const infoText = document.getElementById('info-text');
+  const closeBtn = document.getElementById('close-info');
+
+  function showInfo(planet) {
+    const name = planet.getAttribute('data-name');
+    const info = planet.getAttribute('data-info');
+    infoTitle.textContent = name;
+    infoText.textContent = info;
+    infoBox.classList.add('visible');
+  }
+
+  planets.forEach(planet => {
+    planet.addEventListener('click', () => {
+      showInfo(planet);
+    });
+    planet.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        showInfo(planet);
+      }
+    });
+  });
+
+  closeBtn.addEventListener('click', () => {
+    infoBox.classList.remove('visible');
+  });
+
+  // Close info box on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && infoBox.classList.contains('visible')) {
+      infoBox.classList.remove('visible');
+    }
+  });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Math Operations Output using document.write</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0093E9 0%, #80D0C7 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    max-width: 350px;
+    margin: auto;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  p {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+  }
+</style>
+</head>
+<body>
+<script>
+  let num1 = 10;
+  let num2 = 5;
+
+  // Fixed: Strings must be in quotes
+  let str1 = "hello"; // Added quotes
+  let str2 = "world"; // Added quotes
+
+  // Perform mathematical operations
+  let result = num1 - num2;
+  let multiplication = num1 * num2;
+  let division = num1 / num2;
+  let remainder = num1 % num2;
+
+  // Fixed: Changed variable name to 'concat' and added a space between strings
+  let concat = str1 + " " + str2; // Added a space for better readability
+
+  // Fixed: Assign comparison result properly
+  let compare = num1 > num2; // This will be true
+
+  // Fixed: Removed semicolon after if statement
+  if (num1 > num2) {
+    document.write('true<br>'); // This will execute if num1 is greater than num2
+  }
+
+  // Fixed: Replaced invalid 'II' with '||' (logical OR)
+  let numbers = num1 && num2; // This will return the second operand if the first is truthy
+
+  // Output the results
+  document.write('<h1>Math Operations Output</h1>');
+  document.write('<p>' + str1 + ' ' + str2 + '</p>'); // Display both strings
+  document.write('<p>Subtraction  = ' + result + '</p>');
+  document.write('<p>Multiplication  = ' + multiplication + '</p>');
+  document.write('<p>Division  = ' + division + '</p>');
+  document.write('<p>Remainder  = ' + remainder + '</p>');
+  document.write('<p>Concat  = ' + concat + '</p>'); // Fixed: Changed 'concant' to 'concat'
+  document.write('<p>Compare  = ' + compare + '</p>'); // This will display true or false
+</script>
+</body>
+</html>

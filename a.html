@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Kira Clinic - Login</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #4c9aff, #0b3d91);
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .login-container {
+    background: #ffffff20;
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    max-width: 350px;
+    width: 100%;
+    padding: 2.5rem 2rem 3rem;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .login-header h1 {
+    margin: 0 0 0.15rem;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .login-header p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #dce7ff;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.35rem;
+    color: #e0e7ff;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    background: #ffffff25;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 1.25rem;
+    transition: background 0.3s ease;
+  }
+
+  input[type="email"]::placeholder,
+  input[type="password"]::placeholder {
+    color: #cbd5e1;
+  }
+
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    background: #1a73e8;
+    outline: none;
+  }
+
+  button {
+    background: #ff7a59;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 0.85rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+
+  button:hover,
+  button:focus {
+    background: #ff957a;
+    outline: none;
+  }
+
+  .footer-text {
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-align: center;
+    color: #dce7ffcc;
+  }
+
+  /* Mobile fit and no scroll needed */
+  @media (max-height: 600px) {
+    body {
+      padding: 0.5rem;
+    }
+    .login-container {
+      padding: 2rem 1.5rem 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="login-container" role="main">
+    <header class="login-header" aria-label="Welcome to Kira Clinic">
+      <h1>Welcome to Kira Clinic</h1>
+      <p>Your health, our priority.</p>
+    </header>
+    <form id="loginForm" aria-label="Login form to access Kira Clinic">
+      <label for="email">Email address</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="••••••••" required autocomplete="current-password" />
+
+      <button type="submit" aria-label="Log in to Kira Clinic">Log In</button>
+    </form>
+    <p class="footer-text">Not a member? <a href="#" style="color:#ffb3a2; text-decoration:none;" aria-label="Register for Kira Clinic">Sign up now</a></p>
+  </main>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      const password = form.password.value.trim();
+      if (!email || !password) {
+        alert('Please fill in all fields.');
+        return;
+      }
+      // For demonstration, just show welcome message
+      alert('Welcome to Kira Clinic, ' + email + '!');
+      // Here you could add real login logic or redirect
+    });
+  </script>
+</body>
+</html>
+
